@@ -1,0 +1,12 @@
+body {
+	height: 100vh;
+	background: linear-gradient(to bottom, #4ba2d5, #29546e);
+}
+
+.bg-dark {
+	background-color: #115f90 !important;
+}
+
+.navbar {
+	padding: 20px 0;
+}
