@@ -10,3 +10,9 @@ body {
 .navbar {
 	padding: 20px 0;
 }
+
+.input-group-text {
+	background-color: #115f90;
+	border: none;
+	color: white;
+}
