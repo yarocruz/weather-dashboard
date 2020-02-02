@@ -27,6 +27,11 @@ i {
 	color: white;
 }
 
+.input-group-text:hover {
+	opacity: 0.5;
+	cursor: pointer;
+}
+
 ul {
 	list-style: none;
 	margin: 0;
