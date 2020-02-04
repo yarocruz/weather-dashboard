@@ -38,12 +38,14 @@ ul {
 	padding: 0;
 }
 
-.fa-cloud {
+i.today {
+	margin: 10px auto;
 	font-size: 60px;
 }
 
-.forecast-container .fa-cloud {
-	font-size: 20px;
+.wi {
+	margin: 10px auto;
+	font-size: 1.5em;
 }
 
 .temp-list li {
