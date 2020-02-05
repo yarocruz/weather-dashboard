@@ -2,16 +2,51 @@ let APIkey = '23cfcf98d26d55db92e1f501489be10f'
 
 $('.input-group-text').click(getCityWeather);
 
+let cities = ['orlando', 'new york', 'san francisco', 'miami', 'chicago'];
+
+function renderCities() {
+    $('.list-group').empty();
+    let city;
+    for (city of cities) {
+        let listItem = $('<li>').addClass('list-group-item').attr('data-name', city).text(city);
+        $('.list-group').append(listItem);
+    }
+}
+
+getCities();
+
+renderCities();
+
+function saveCities() {
+    localStorage.setItem('cities', cities);
+}
+
+saveCities();
+
+function getCities() {
+    let result = localStorage.getItem('cities');
+    cities = result.split(',');
+
+    console.log(cities);
+}
+
 function getCityWeather() {
     let city = $('.input-search').val();
     let queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${APIkey}`;
+    if (!cities.includes(city)) {
+        cities.unshift(city);
+        cities.pop();
+        saveCities();
+        renderCities();
+    }
 
     $.ajax({
         url: queryURL,
         method: 'get'
     }).then((res) => {
+        $('#today').empty();
         let todaysContainer = $(`
-        <h3 class="mt-5 city-heading">${res.name} -  ${moment().format('ddd, MMMM DD YYYY')} </h3>
+        <h3 class="mt-5 city-heading">${res.name} -  ${moment().format('dddd MMM D YYYY')} </h3>
         <i class="today wi ${setWeatherIcon(res.weather[0].icon)}"></i>
         <ul class="temp-list">
             <li>Temperature: <span class="temp">${res.main.temp} F</span></li>

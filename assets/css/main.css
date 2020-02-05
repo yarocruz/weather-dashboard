@@ -38,6 +38,10 @@ ul {
 	padding: 0;
 }
 
+ul .list-group-item {
+	text-transform: capitalize;
+}
+
 i.today {
 	margin: 10px auto;
 	font-size: 60px;
