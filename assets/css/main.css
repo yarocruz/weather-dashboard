@@ -42,6 +42,12 @@ ul .list-group-item {
 	text-transform: capitalize;
 }
 
+ul .list-group-item:hover {
+	cursor: pointer;
+	background-color: #85c3e7;
+	color: white;
+}
+
 i.today {
 	margin: 10px auto;
 	font-size: 60px;
