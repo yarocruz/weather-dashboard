@@ -45,17 +45,26 @@ function getCityWeather() {
 
     let queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${APIkey}`;
 
-    if (!cities.includes(city)) {
-        cities.unshift(city);
-        cities.pop();
-        renderCities();
-        saveCities();
-    }
-
     $.ajax({
         url: queryURL,
         method: 'get'
     }).then((res) => {
+
+        if (!cities.includes(city) && city !== '' && res) {
+            cities.unshift(city);
+            cities.pop();
+            renderCities();
+            saveCities();
+        }
+
+        let lon = res.coord.lon;
+        let lat = res.coord.lat;
+        $.ajax({
+            url: `http://api.openweathermap.org/data/2.5/uvi?lon=${lon}&lat=${lat}&appid=${APIkey}`,
+            method: 'get'
+        }).then(res => {
+            $('.uv-index').text(`${res.value}`);
+        })
         $('#today').empty();
         let todaysContainer = $(`
             <h3 class="mt-5 city-heading">${res.name} -  ${moment().format('dddd MMM D YYYY')} </h3>
@@ -70,6 +79,7 @@ function getCityWeather() {
         $('.input-search').val('')
         $('#today').prepend(todaysContainer);
     })
+
     $('.forecast-row').empty();
     getForecast();
 }
