@@ -11,18 +11,18 @@ function renderCities() {
     }
 }
 
-saveCities();
-
 function saveCities() {
-
-    getCities();
     localStorage.setItem('cities', cities);
     renderCities();
 }
 
+getCities();
+
+saveCities();
+
 function getCities() {
-    if (cities === null) {
-        let result = localStorage.getItem('cities');
+    let result = localStorage.getItem('cities');
+    if (result !== null) {
         cities = result.split(',');
         console.log(cities);
     }
