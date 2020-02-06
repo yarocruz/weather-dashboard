@@ -1,7 +1,5 @@
 let APIkey = '23cfcf98d26d55db92e1f501489be10f'
 
-$('.input-group-text').click(getCityWeather);
-
 let cities = ['orlando', 'new york', 'san francisco', 'miami', 'chicago'];
 
 function renderCities() {
@@ -13,31 +11,45 @@ function renderCities() {
     }
 }
 
-getCities();
-
-renderCities();
-
-function saveCities() {
-    localStorage.setItem('cities', cities);
-}
-
 saveCities();
 
-function getCities() {
-    let result = localStorage.getItem('cities');
-    cities = result.split(',');
+function saveCities() {
 
-    console.log(cities);
+    getCities();
+    localStorage.setItem('cities', cities);
+    renderCities();
 }
 
+function getCities() {
+    if (cities === null) {
+        let result = localStorage.getItem('cities');
+        cities = result.split(',');
+        console.log(cities);
+    }
+}
+
+let city;
+
+$('.input-group-text').click(function () {
+    city = $('.input-search').val()
+    getCityWeather()
+});
+
+$(document).on('click', '.list-group-item', function () {
+    city = $(this).attr('data-name');
+    console.log(city);
+    getCityWeather();
+});
+
 function getCityWeather() {
-    let city = $('.input-search').val();
+
     let queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${APIkey}`;
+
     if (!cities.includes(city)) {
         cities.unshift(city);
         cities.pop();
-        saveCities();
         renderCities();
+        saveCities();
     }
 
     $.ajax({
@@ -46,31 +58,31 @@ function getCityWeather() {
     }).then((res) => {
         $('#today').empty();
         let todaysContainer = $(`
-        <h3 class="mt-5 city-heading">${res.name} -  ${moment().format('dddd MMM D YYYY')} </h3>
-        <i class="today wi ${setWeatherIcon(res.weather[0].icon)}"></i>
-        <ul class="temp-list">
-            <li>Temperature: <span class="temp">${res.main.temp} F</span></li>
-            <li>Humidity: <span class="humidity">${res.main.humidity}%</span></li>
-            <li>Wind Speed: <span class="wind-speed">${res.wind.speed} MPH</span></li>
-            <li>UV Index: <span class="uv-index"></span></li>
-        </ul>
-        `);
+            <h3 class="mt-5 city-heading">${res.name} -  ${moment().format('dddd MMM D YYYY')} </h3>
+            <i class="today wi ${setWeatherIcon(res.weather[0].icon)}"></i>
+            <ul class="temp-list">
+                <li>Temperature: <span class="temp">${res.main.temp} F</span></li>
+                <li>Humidity: <span class="humidity">${res.main.humidity}%</span></li>
+                <li>Wind Speed: <span class="wind-speed">${res.wind.speed} MPH</span></li>
+                <li>UV Index: <span class="uv-index"></span></li>
+            </ul>
+            `);
         $('.input-search').val('')
         $('#today').prepend(todaysContainer);
     })
-
+    $('.forecast-row').empty();
     getForecast();
 }
 
 function getForecast() {
     $('.forecast-row').empty();
-    let city = $('.input-search').val();
     let queryURL = `http://api.openweathermap.org/data/2.5/forecast/?q=${city}&units=imperial&appid=${APIkey}`;
 
     $.ajax({
         url: queryURL,
         method: 'get'
     }).then((res) => {
+
         for (i = 0; i < res.list.length; i++) {
             let date = new Date(res.list[i].dt * 1000);
             let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -79,13 +91,13 @@ function getForecast() {
             // This condition makes sure to only get a day of the week that starts at '15:00:00' hours thus it gives you five days. 
             if (res.list[i].dt_txt.indexOf("15:00:00") !== -1) {
                 let forecastContainer = $(`<div class="col-lg-2 forecast-container mr-3">
-                <h5 class="mt-5">${name}</h5>
-                <i class="wi ${setWeatherIcon(res.list[i].weather[0].icon)}"></i>
-                <ul class="temp-list">
-                    <li>Temp: ${res.list[i].main.temp}</li>
-                    <li>Humidity: ${res.list[i].main.humidity}</li>
-                </ul>
-                </div>`);
+                    <h5 class="mt-5">${name}</h5>
+                    <i class="wi ${setWeatherIcon(res.list[i].weather[0].icon)}"></i>
+                    <ul class="temp-list">
+                        <li>Temp: ${res.list[i].main.temp}</li>
+                        <li>Humidity: ${res.list[i].main.humidity}</li>
+                    </ul>
+                    </div>`);
                 $('.forecast-row').append(forecastContainer);
             }
         }
