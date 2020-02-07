@@ -24,20 +24,23 @@ function getCities() {
     let result = localStorage.getItem('cities');
     if (result !== null) {
         cities = result.split(',');
-        console.log(cities);
     }
 }
 
 let city;
 
+$('.input-search').on('change', function () {
+    city = $('.input-search').val();
+    getCityWeather();
+});
+
 $('.input-group-text').click(function () {
-    city = $('.input-search').val()
-    getCityWeather()
+    city = $('.input-search').val();
+    getCityWeather();
 });
 
 $(document).on('click', '.list-group-item', function () {
     city = $(this).attr('data-name');
-    console.log(city);
     getCityWeather();
 });
 

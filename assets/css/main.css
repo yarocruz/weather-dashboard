@@ -40,11 +40,12 @@ ul {
 
 ul .list-group-item {
 	text-transform: capitalize;
+	transition: all 0.2s;
 }
 
 ul .list-group-item:hover {
 	cursor: pointer;
-	background-color: #85c3e7;
+	background-color: #115f90;
 	color: white;
 }
 
