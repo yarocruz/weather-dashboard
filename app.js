@@ -53,7 +53,7 @@ function getCityWeather() {
         method: 'get'
     }).then((res) => {
 
-        if (!cities.includes(city) && city !== '' && res) {
+        if (!cities.includes(city) && city !== '') {
             cities.unshift(city);
             cities.pop();
             renderCities();
@@ -81,6 +81,8 @@ function getCityWeather() {
             `);
         $('.input-search').val('')
         $('#today').prepend(todaysContainer);
+    }).catch((error) => {
+        $('.alert').css('display', 'block');
     })
 
     $('.forecast-row').empty();

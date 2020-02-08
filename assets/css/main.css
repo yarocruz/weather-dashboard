@@ -59,6 +59,10 @@ i.today {
 	font-size: 1.5em;
 }
 
+.alert {
+	display: none;
+}
+
 .temp-list li {
 	color: white;
 }
