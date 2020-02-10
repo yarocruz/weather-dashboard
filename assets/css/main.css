@@ -38,6 +38,41 @@ ul {
 	padding: 0;
 }
 
+.uv-index-low {
+	padding: 3px;
+	background-color: green;
+	border-radius: 3px;
+	color: black;
+}
+
+.uv-index-moderate {
+	padding: 3px;
+	background-color: yellow;
+	border-radius: 3px;
+	color: black;
+}
+
+.uv-index-high {
+	padding: 3px;
+	background-color: orange;
+	border-radius: 3px;
+	color: black;
+}
+
+.uv-index-very-high {
+	padding: 3px;
+	background-color: red;
+	border-radius: 3px;
+	color: black;
+}
+
+.uv-index-extreme {
+	padding: 3px;
+	background-color: violet;
+	border-radius: 3px;
+	color: black;
+}
+
 ul .list-group-item {
 	text-transform: capitalize;
 	transition: all 0.2s;

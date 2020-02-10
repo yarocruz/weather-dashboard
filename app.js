@@ -45,7 +45,7 @@ $(document).on('click', '.list-group-item', function () {
 });
 
 function getCityWeather() {
-
+    $('.alert').hide();
     let queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${APIkey}`;
 
     $.ajax({
@@ -67,6 +67,35 @@ function getCityWeather() {
             method: 'get'
         }).then(res => {
             $('.uv-index').text(`${res.value}`);
+            let uvIndex = Math.floor(parseInt(res.value));
+            if (uvIndex <= 2) {
+                $('.uv-index').addClass('uv-index-low');
+            } else if (uvIndex <= 5 && uvIndex > 2) {
+                $('.uv-index').addClass('uv-index-moderate');
+            } else if (uvIndex <= 7 && uvIndex > 5) {
+                $('.uv-index').addClass('uv-index-high');
+            } else if (uvIndex <= 10 && uvIndex > 7) {
+                $('.uv-index').addClass('uv-index-very-high');
+            } else if (uvIndex > 11) {
+                $('.uv-index').addClass('uv-index-extreme');
+            }
+            // switch (uvIndex) {
+            //     case 1:
+            //         $('.uv-index').addClass('uv-index-low');
+            //         break;
+            //     case (uvIndex >= 6):
+            //         $('.uv-index').addClass('uv-index-moderate');
+            //         break;
+            //     case (uvIndex >= 7):
+            //         $('.uv-index').addClass('uv-index-high');
+            //         break;
+            //     case (uvIndex >= 8):
+            //         $('.uv-index').addClass('uv-index-very-high');
+            //         break;
+            //     case (uvIndex >= 11):
+            //         $('.uv-index').addClass('uv-index-extreme');
+            //         break;
+            // }
         })
         $('#today').empty();
         let todaysContainer = $(`
@@ -82,7 +111,7 @@ function getCityWeather() {
         $('.input-search').val('')
         $('#today').prepend(todaysContainer);
     }).catch((error) => {
-        $('.alert').css('display', 'block');
+        $('.alert').show();
     })
 
     $('.forecast-row').empty();
