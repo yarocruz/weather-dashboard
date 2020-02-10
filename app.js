@@ -46,7 +46,7 @@ $(document).on('click', '.list-group-item', function () {
 
 function getCityWeather() {
     $('.alert').hide();
-    let queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${APIkey}`;
+    let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${APIkey}`;
 
     $.ajax({
         url: queryURL,
@@ -63,7 +63,7 @@ function getCityWeather() {
         let lon = res.coord.lon;
         let lat = res.coord.lat;
         $.ajax({
-            url: `http://api.openweathermap.org/data/2.5/uvi?lon=${lon}&lat=${lat}&appid=${APIkey}`,
+            url: `https://api.openweathermap.org/data/2.5/uvi?lon=${lon}&lat=${lat}&appid=${APIkey}`,
             method: 'get'
         }).then(res => {
             $('.uv-index').text(`${res.value}`);
@@ -120,7 +120,7 @@ function getCityWeather() {
 
 function getForecast() {
     $('.forecast-row').empty();
-    let queryURL = `http://api.openweathermap.org/data/2.5/forecast/?q=${city}&units=imperial&appid=${APIkey}`;
+    let queryURL = `https://api.openweathermap.org/data/2.5/forecast/?q=${city}&units=imperial&appid=${APIkey}`;
 
     $.ajax({
         url: queryURL,
